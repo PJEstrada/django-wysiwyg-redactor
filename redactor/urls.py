@@ -1,10 +1,10 @@
-from django.conf.urls.defaults import url, patterns
-
+from django.conf.urls import url
 from redactor.views import redactor_upload
 from redactor.forms import FileForm, ImageForm
 
 
-urlpatterns = patterns('',
+urlpatterns =[
+    '',
     url('^upload/image/(?P<upload_to>.*)', redactor_upload, {
         'form_class': ImageForm,
         'response': lambda name, url: '<img src="%s" alt="%s" />' % (url, name),
