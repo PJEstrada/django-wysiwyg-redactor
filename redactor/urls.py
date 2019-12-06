@@ -10,8 +10,9 @@ urlpatterns =[
         'response': lambda name, url: '<img src="%s" alt="%s" />' % (url, name),
     }, name='redactor_upload_image'),
 
-    url('^upload/file/(?P<upload_to>.*)', redactor_upload, {
+    url('^upload/file/(?P<upload_to>.*)', redactor_upload,
+        {
         'form_class': FileForm,
-        'response': lambda name, url: '<a href="%s">%s</a>' % (url, name),
-    }, name='redactor_upload_file'),
-)
+        'response': lambda name, url: '<a href="%s">%s</a>'.format(url, name)},
+        name='redactor_upload_file'),
+]
