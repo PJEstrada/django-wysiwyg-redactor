@@ -7,7 +7,7 @@ urlpatterns = [
          {
              'form_class': ImageForm,
              'response': lambda name, url: '<img src="%s" alt="%s" />' % (url, name),
-             'upload_to': None
+             'upload_to': ''
          },
          name='redactor_upload_image'),
 
@@ -15,7 +15,7 @@ urlpatterns = [
          {
              'form_class': FileForm,
              'response': lambda name, url: '<a href="%s">%s</a>'.format(url, name),
-             'upload_to': None
+             'upload_to': ''
          },
          name='redactor_upload_file'),
 ]
