@@ -43,7 +43,7 @@ class RedactorEditor(widgets.Textarea):
         })
         return json.dumps(options)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         html = super(RedactorEditor, self).render(name, value, attrs)
         final_attrs = self.build_attrs(attrs)
         id_ = final_attrs.get('id')
