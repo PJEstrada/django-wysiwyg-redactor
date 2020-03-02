@@ -14,7 +14,7 @@ urlpatterns = [
     path('upload/file/', redactor_upload,
          {
              'form_class': FileForm,
-             'response': lambda name, url: '<a href="%s">%s</a>'.format(url, name)
+             'response': lambda name, url: '<a href="%s">%s</a>'.format(url, name),
              'upload_to': None
          },
          name='redactor_upload_file'),
