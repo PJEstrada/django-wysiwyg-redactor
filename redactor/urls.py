@@ -1,21 +1,17 @@
-from django.urls import path
+from django.urls import re_path
+
 from redactor.views import redactor_upload
 from redactor.forms import FileForm, ImageForm
 
-urlpatterns = [
-    path('upload/image/', redactor_upload,
-         {
-             'form_class': ImageForm,
-             'response': lambda name, url: '<img src="%s" alt="%s" />' % (url, name),
-             'upload_to': ''
-         },
-         name='redactor_upload_image'),
 
-    path('upload/file/', redactor_upload,
-         {
-             'form_class': FileForm,
-             'response': lambda name, url: '<a href="%s">%s</a>'.format(url, name),
-             'upload_to': ''
-         },
-         name='redactor_upload_file'),
+urlpatterns = [
+    re_path('^upload/image/(?P<upload_to>.*)', redactor_upload, {
+        'form_class': ImageForm,
+        'response': lambda name, url: '<img src="%s" alt="%s" />' % (url, name),
+    }, name='redactor_upload_image'),
+
+    re_path('^upload/file/(?P<upload_to>.*)', redactor_upload, {
+        'form_class': FileForm,
+        'response': lambda name, url: '<a href="%s">%s</a>' % (url, name),
+    }, name='redactor_upload_file'),
 ]
