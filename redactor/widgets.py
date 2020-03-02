@@ -37,9 +37,10 @@ class RedactorEditor(widgets.Textarea):
     def get_options(self):
         options = GLOBAL_OPTIONS.copy()
         options.update(self.custom_options)
+        upload_to = self.upload_to
         options.update({
-            'imageUpload': reverse('redactor_upload_image', kwargs={'upload_to': self.upload_to}),
-            'fileUpload': reverse('redactor_upload_file', kwargs={'upload_to': self.upload_to})
+            'imageUpload': reverse('redactor_upload_image', kwargs={'upload_to': upload_to}),
+            'fileUpload': reverse('redactor_upload_file', kwargs={'upload_to': upload_to})
         })
         return json.dumps(options)
 
