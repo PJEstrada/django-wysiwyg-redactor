@@ -8,9 +8,12 @@ from django.conf import settings
 GLOBAL_OPTIONS = getattr(settings, 'REDACTOR_OPTIONS', {})
 
 INIT_JS = """<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
   jQuery(document).ready(function(){
-    $("#%s").redactor(%s);
+    jQuery("#%s").redactor(%s);
   });
+});
+
 </script>
 """
 
@@ -19,8 +22,8 @@ class RedactorEditor(widgets.Textarea):
 
     class Media:
         js = (
-            'redactor/jquery-1.7.min.js',
-            'redactor/redactor.min.js',
+            # 'redactor/jquery-1.7.min.js',
+            'redactor/redactor.js',
         )
         css = {
             'all': (
@@ -32,16 +35,22 @@ class RedactorEditor(widgets.Textarea):
     def __init__(self, *args, **kwargs):
         self.upload_to = kwargs.pop('upload_to', None)
         self.custom_options = kwargs.pop('redactor_options', {})
+
+        widget_attrs = {'class': 'redactor-box'}
+        widget_attrs.update(kwargs.get('attrs', {}))
+        kwargs['attrs'] = widget_attrs
         super(RedactorEditor, self).__init__(*args, **kwargs)
 
     def get_options(self):
         options = GLOBAL_OPTIONS.copy()
         options.update(self.custom_options)
+        options['class'] = 'redactor-box'
         upload_to = self.upload_to
         options.update({
             'imageUpload': reverse('redactor_upload_image', kwargs={'upload_to': upload_to}),
             'fileUpload': reverse('redactor_upload_file', kwargs={'upload_to': upload_to})
         })
+
         return json.dumps(options)
 
     def render(self, name, value, attrs=None, renderer=None):
