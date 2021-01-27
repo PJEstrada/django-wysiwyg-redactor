@@ -1,4 +1,5 @@
 import os
+from uuid import uuid4
 
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
@@ -20,9 +21,9 @@ def redactor_upload(request, upload_to=None, form_class=ImageForm, response=lamb
     form = form_class(request.POST, request.FILES)
     if form.is_valid():
         file_ = form.cleaned_data['file']
-        path = os.path.join(upload_to or UPLOAD_PATH, file_.name)
+        path = os.path.join('{}{}/'.format(upload_to or UPLOAD_PATH, uuid4()), file_.name)
         real_path = default_storage.save(path, file_)
-        return HttpResponse(
-            response(file_.name, os.path.join(settings.MEDIA_URL, real_path))
-        )
+
+        return HttpResponse(response(file_.name, default_storage.url(path)))
+
     return HttpResponse(status=403)
